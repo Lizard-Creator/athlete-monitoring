@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "injuries",
+  "position": {
+    "x": 870,
+    "y": 210,
+    "z": 6000,
+    "height": 495,
+    "width": 390,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Injury Date"
+                }
+              },
+              "queryRef": "Injuries.Injury Date",
+              "nativeQueryRef": "Injury Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Return Date"
+                }
+              },
+              "queryRef": "Injuries.Return Date",
+              "nativeQueryRef": "Return Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Days Out"
+                }
+              },
+              "queryRef": "Injuries.Days Out",
+              "nativeQueryRef": "Days Out"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Injury history'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

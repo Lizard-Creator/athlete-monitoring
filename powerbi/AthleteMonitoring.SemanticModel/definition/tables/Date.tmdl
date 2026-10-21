@@ -1,0 +1,78 @@
+table 'Date'
+	lineageTag: 67edeee6-70b5-552f-a97f-7f042271def2
+	dataCategory: Time
+
+	column 'Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5991f7f8-0c3a-5e1c-8734-b878b3b1569a
+		summarizeBy: none
+		sourceColumn: Date
+		isKey
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Start'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: c2a20ee0-4de4-5749-a441-7e5101e9f54b
+		summarizeBy: none
+		sourceColumn: Week Start
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		dataType: string
+		lineageTag: ac551e87-1f13-5c5d-957f-792c163c4b63
+		summarizeBy: none
+		sourceColumn: Weekday
+		sortByColumn: 'Weekday No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Weekday No'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e4d4655a-3927-5c6b-8fc4-9582be065b8b
+		summarizeBy: none
+		sourceColumn: Weekday No
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 46aac61c-7b2f-5a55-85fc-e965d2a508a3
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: 'Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month No'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 819bef76-c219-5ca7-b511-ba3a5fbdeec1
+		summarizeBy: none
+		sourceColumn: Month No
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Date' = m
+		mode: import
+		source =
+				let
+				    Dates = List.Buffer(Sessions[Date]),
+				    Start = List.Min(Dates),
+				    DateList = List.Dates(Start, Duration.Days(List.Max(Dates) - Start) + 1, #duration(1, 0, 0, 0)),
+				    Base = Table.FromList(DateList, Splitter.SplitByNothing(), type table [Date = date]),
+				    WeekStart = Table.AddColumn(Base, "Week Start", each Date.StartOfWeek([Date], Day.Monday), type date),
+				    Weekday = Table.AddColumn(WeekStart, "Weekday", each Date.ToText([Date], "ddd", "en-US"), type text),
+				    WeekdayNo = Table.AddColumn(Weekday, "Weekday No", each Date.DayOfWeek([Date], Day.Monday) + 1, Int64.Type),
+				    Month = Table.AddColumn(WeekdayNo, "Month", each Date.ToText([Date], "MMM yyyy", "en-US"), type text),
+				    MonthNo = Table.AddColumn(Month, "Month No", each Date.Year([Date]) * 100 + Date.Month([Date]), Int64.Type)
+				in
+				    MonthNo

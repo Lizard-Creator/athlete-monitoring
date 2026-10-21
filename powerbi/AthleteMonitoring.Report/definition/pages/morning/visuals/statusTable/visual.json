@@ -1,0 +1,264 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "statusTable",
+  "position": {
+    "x": 20,
+    "y": 215,
+    "z": 4000,
+    "height": 490,
+    "width": 1240,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Players"
+                    }
+                  },
+                  "Property": "Player"
+                }
+              },
+              "queryRef": "Players.Player",
+              "nativeQueryRef": "Player"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Players"
+                    }
+                  },
+                  "Property": "Position"
+                }
+              },
+              "queryRef": "Players.Position",
+              "nativeQueryRef": "Position"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Availability"
+                }
+              },
+              "queryRef": "Injuries.Availability",
+              "nativeQueryRef": "Availability"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR"
+                }
+              },
+              "queryRef": "Daily Load.ACWR",
+              "nativeQueryRef": "ACWR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR Status"
+                }
+              },
+              "queryRef": "Daily Load.ACWR Status",
+              "nativeQueryRef": "ACWR Status"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR (EWMA)"
+                }
+              },
+              "queryRef": "Daily Load.ACWR (EWMA)",
+              "nativeQueryRef": "ACWR (EWMA)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Acute Load (7d)"
+                }
+              },
+              "queryRef": "Daily Load.Acute Load (7d)",
+              "nativeQueryRef": "Acute Load (7d)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Chronic Load (28d)"
+                }
+              },
+              "queryRef": "Daily Load.Chronic Load (28d)",
+              "nativeQueryRef": "Chronic Load (28d)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Wellness"
+                    }
+                  },
+                  "Property": "Sleep"
+                }
+              },
+              "queryRef": "Wellness.Sleep",
+              "nativeQueryRef": "Sleep"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Wellness"
+                    }
+                  },
+                  "Property": "Fatigue"
+                }
+              },
+              "queryRef": "Wellness.Fatigue",
+              "nativeQueryRef": "Fatigue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Wellness"
+                    }
+                  },
+                  "Property": "Soreness"
+                }
+              },
+              "queryRef": "Wellness.Soreness",
+              "nativeQueryRef": "Soreness"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Daily Load"
+                  }
+                },
+                "Property": "ACWR"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Daily Load"
+                        }
+                      },
+                      "Property": "ACWR Colour"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "Daily Load.ACWR"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Player status'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

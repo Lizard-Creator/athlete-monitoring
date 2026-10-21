@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "loadAcwr",
+  "position": {
+    "x": 20,
+    "y": 210,
+    "z": 4000,
+    "height": 290,
+    "width": 830,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "lineClusteredColumnComboChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "Date.Date",
+              "nativeQueryRef": "Date"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Daily sRPE (AU)"
+                }
+              },
+              "queryRef": "Daily Load.Daily sRPE (AU)",
+              "nativeQueryRef": "Daily sRPE (AU)"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR"
+                }
+              },
+              "queryRef": "Daily Load.ACWR",
+              "nativeQueryRef": "ACWR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR Upper Band"
+                }
+              },
+              "queryRef": "Daily Load.ACWR Upper Band",
+              "nativeQueryRef": "ACWR Upper Band"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "ACWR Lower Band"
+                }
+              },
+              "queryRef": "Daily Load.ACWR Lower Band",
+              "nativeQueryRef": "ACWR Lower Band"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Daily load (sRPE) and ACWR'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

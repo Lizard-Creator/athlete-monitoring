@@ -1,0 +1,262 @@
+table Sessions
+	lineageTag: 6b316596-4e91-557d-af98-ba15c72f39af
+
+	column Player
+		dataType: string
+		isHidden
+		lineageTag: 26c75804-183c-5ff7-815f-f02fc4915327
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 5cc82a7c-3ebe-57e6-875e-f68ac1b138b2
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column 'Session Type'
+		dataType: string
+		lineageTag: dfe63e02-e091-5bc9-9b64-4e5ed5f74b35
+		summarizeBy: none
+		sourceColumn: Session Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MD Code'
+		dataType: string
+		lineageTag: cf9155d8-191c-5d8f-8633-46307b836973
+		summarizeBy: none
+		sourceColumn: MD Code
+		sortByColumn: md_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration_min
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c26ae645-cee1-52a7-946d-cb93197efc1d
+		summarizeBy: none
+		sourceColumn: duration_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 6943b912-0bc6-5a03-8835-ef72ec5d0231
+		summarizeBy: none
+		sourceColumn: total_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column hsr_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: a9ed4aac-ba7f-586a-8013-f24512ee4e09
+		summarizeBy: none
+		sourceColumn: hsr_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column sprint_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: d289a916-e123-5249-8857-3ac44b1094f4
+		summarizeBy: none
+		sourceColumn: sprint_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column sprint_efforts
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6714f994-123c-5740-b537-06acee20c3f1
+		summarizeBy: none
+		sourceColumn: sprint_efforts
+
+		annotation SummarizationSetBy = Automatic
+
+	column accels
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d62964ed-1220-5d07-bfed-05dc6a59a019
+		summarizeBy: none
+		sourceColumn: accels
+
+		annotation SummarizationSetBy = Automatic
+
+	column decels
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b1aafc89-04ca-5284-92f9-a242230203f7
+		summarizeBy: none
+		sourceColumn: decels
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_speed_ms
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 91c70363-3fc8-5ce7-b16d-c38b51d8d9a3
+		summarizeBy: none
+		sourceColumn: max_speed_ms
+
+		annotation SummarizationSetBy = Automatic
+
+	column rpe
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 923d0051-6629-52f0-af99-327378432a38
+		summarizeBy: none
+		sourceColumn: rpe
+
+		annotation SummarizationSetBy = Automatic
+
+	column srpe_au
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 222f75d8-d185-54a7-94dd-3a90b731ed2b
+		summarizeBy: none
+		sourceColumn: srpe_au
+
+		annotation SummarizationSetBy = Automatic
+
+	column md_order
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ecf1dd1e-4c26-55ba-a486-f5f61e3a72db
+		summarizeBy: none
+		sourceColumn: md_order
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Distance (km)' = ```
+			DIVIDE(SUM(Sessions[total_distance_m]), 1000)
+			```
+		formatString: #,0.0
+		displayFolder: Load
+		lineageTag: d74f2ac6-b830-5e98-89da-806847d7ba5b
+
+	measure 'HSR (m)' = ```
+			SUM(Sessions[hsr_distance_m])
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: 8cf02e05-7809-5f8f-ae29-f3d27f9b7970
+
+	measure 'Sprint Distance (m)' = ```
+			SUM(Sessions[sprint_distance_m])
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: 89587ffe-77e8-5a5e-bfd9-f692d4edb73a
+
+	measure 'Sprint Efforts' = ```
+			SUM(Sessions[sprint_efforts])
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: 0f7b4e9b-c661-58a8-a93e-960413668ebd
+
+	measure 'Accels + Decels' = ```
+			SUM(Sessions[accels]) + SUM(Sessions[decels])
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: d14bf5a8-2e1b-5c03-8ca4-a75a7add1e2f
+
+	measure 'sRPE (AU)' = ```
+			SUM(Sessions[srpe_au])
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: 4e0e75b4-2c28-5c63-8a06-72032a4af306
+
+	measure 'Session Count' = ```
+			COUNTROWS(Sessions)
+			```
+		formatString: #,0
+		displayFolder: Load
+		lineageTag: 82e8d1a8-e1e6-50e2-8770-4b9f299a4152
+
+	measure 'Matches Played' = ```
+			CALCULATE(COUNTROWS(Sessions), Sessions[Session Type] = "Match") + 0
+			```
+		formatString: 0
+		displayFolder: Load
+		lineageTag: 072282ec-6b0b-583c-8201-043a4dc84bbd
+
+	measure 'Top Speed (m/s)' = ```
+			MAX(Sessions[max_speed_ms])
+			```
+		formatString: 0.0
+		displayFolder: Load
+		lineageTag: 2b2915d0-05bd-58d2-98ae-77b36f4088ed
+
+	measure 'Avg Distance per Session (m)' = ```
+			AVERAGE(Sessions[total_distance_m])
+			```
+		formatString: #,0
+		displayFolder: Periodization
+		lineageTag: 0efb2866-355d-5ed0-ba67-9ec5d7e9ef31
+
+	measure 'Avg HSR per Session (m)' = ```
+			AVERAGE(Sessions[hsr_distance_m])
+			```
+		formatString: #,0
+		displayFolder: Periodization
+		lineageTag: 04d57eb7-549a-5657-aca3-9d6f587ab319
+
+	measure 'Avg sRPE per Session' = ```
+			AVERAGE(Sessions[srpe_au])
+			```
+		formatString: #,0
+		displayFolder: Periodization
+		lineageTag: ca0d22b0-6050-563f-beb5-70f104dec310
+
+	measure 'Squad Avg sRPE (AU)' = ```
+			AVERAGEX(VALUES(Players[Player]), [sRPE (AU)])
+			```
+		formatString: #,0
+		displayFolder: Periodization
+		lineageTag: bb6bb30e-9dd4-5ab2-8783-a685f13d71c5
+
+	measure 'Weekly Load WoW %' = ```
+			VAR cur = [sRPE (AU)]
+			VAR prev = CALCULATE([sRPE (AU)], DATEADD('Date'[Date], -7, DAY))
+			RETURN DIVIDE(cur - prev, prev)
+			```
+		formatString: 0.0%
+		displayFolder: Periodization
+		lineageTag: 2cfef0fd-5557-5ca7-b4c3-6512af91823b
+
+	partition Sessions = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "sessions.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "date", "session_type", "md_code", "duration_min", "total_distance_m", "hsr_distance_m", "sprint_distance_m", "sprint_efforts", "accels", "decels", "max_speed_ms", "rpe", "srpe_au"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"date", type date}, {"session_type", type text}, {"md_code", type text}, {"duration_min", Int64.Type}, {"total_distance_m", type number}, {"hsr_distance_m", type number}, {"sprint_distance_m", type number}, {"sprint_efforts", Int64.Type}, {"accels", Int64.Type}, {"decels", Int64.Type}, {"max_speed_ms", type number}, {"rpe", Int64.Type}, {"srpe_au", Int64.Type}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}, {"date", "Date"}, {"session_type", "Session Type"}, {"md_code", "MD Code"}}),
+				    WithOrder = Table.AddColumn(Renamed, "md_order", each Record.FieldOrDefault([#"MD-4" = 1, #"MD-3" = 2, #"MD-2" = 3, #"MD-1" = 4, MD = 5, #"MD+1" = 6, COMP = 7, REHAB = 8], [MD Code], 9), Int64.Type)
+				in
+				    WithOrder

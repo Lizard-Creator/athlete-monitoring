@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "kpis",
+  "position": {
+    "x": 20,
+    "y": 95,
+    "z": 3000,
+    "height": 100,
+    "width": 1240,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sessions"
+                    }
+                  },
+                  "Property": "Distance (km)"
+                }
+              },
+              "queryRef": "Sessions.Distance (km)",
+              "nativeQueryRef": "Distance (km)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sessions"
+                    }
+                  },
+                  "Property": "Matches Played"
+                }
+              },
+              "queryRef": "Sessions.Matches Played",
+              "nativeQueryRef": "Matches Played"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sessions"
+                    }
+                  },
+                  "Property": "Session Count"
+                }
+              },
+              "queryRef": "Sessions.Session Count",
+              "nativeQueryRef": "Session Count"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sessions"
+                    }
+                  },
+                  "Property": "Top Speed (m/s)"
+                }
+              },
+              "queryRef": "Sessions.Top Speed (m/s)",
+              "nativeQueryRef": "Top Speed (m/s)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Days Injured"
+                }
+              },
+              "queryRef": "Injuries.Days Injured",
+              "nativeQueryRef": "Days Injured"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

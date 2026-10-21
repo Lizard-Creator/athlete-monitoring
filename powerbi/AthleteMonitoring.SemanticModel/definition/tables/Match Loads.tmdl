@@ -1,0 +1,168 @@
+table 'Match Loads'
+	lineageTag: 00feb990-5728-503e-9feb-3409a956ff52
+
+	column Player
+		dataType: string
+		isHidden
+		lineageTag: 004b960f-5371-5574-a492-3aea1f36133d
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_game
+		dataType: string
+		isHidden
+		lineageTag: 37201908-8237-5aa9-b197-3421daa5de60
+		summarizeBy: none
+		sourceColumn: source_game
+
+		annotation SummarizationSetBy = Automatic
+
+	column minutes
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 76366a1b-50a5-580d-80ce-b983595b72c6
+		summarizeBy: none
+		sourceColumn: minutes
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 0483020b-542a-5949-89a2-56235d8f738e
+		summarizeBy: none
+		sourceColumn: total_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column hsr_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 76c6aad6-f014-50e4-8dbc-d4a41e26e7e6
+		summarizeBy: none
+		sourceColumn: hsr_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column sprint_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: b7ac3497-f979-55a6-bb5c-d541210028fc
+		summarizeBy: none
+		sourceColumn: sprint_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column sprint_efforts
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 773059ae-6640-55ed-83e8-2005ca4b602b
+		summarizeBy: none
+		sourceColumn: sprint_efforts
+
+		annotation SummarizationSetBy = Automatic
+
+	column accels
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6d856f42-bff9-589c-8f5c-3d0b27f22710
+		summarizeBy: none
+		sourceColumn: accels
+
+		annotation SummarizationSetBy = Automatic
+
+	column decels
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fe422ca5-c1d8-564d-8bdd-8fe4e01775ac
+		summarizeBy: none
+		sourceColumn: decels
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_speed_ms
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 8ccc9f49-042f-58aa-bc74-196a789d15bf
+		summarizeBy: none
+		sourceColumn: max_speed_ms
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Match Minutes' = ```
+			SUM('Match Loads'[minutes])
+			```
+		formatString: 0
+		displayFolder: Match (real data)
+		lineageTag: 63cffc64-2ecf-5164-9052-2aed7b3ed02a
+
+	measure 'Match Distance (km)' = ```
+			DIVIDE(SUM('Match Loads'[total_distance_m]), 1000)
+			```
+		formatString: 0.0
+		displayFolder: Match (real data)
+		lineageTag: e47fbd85-9303-572d-b950-60bd550716ff
+
+	measure 'Match HSR (m)' = ```
+			SUM('Match Loads'[hsr_distance_m])
+			```
+		formatString: #,0
+		displayFolder: Match (real data)
+		lineageTag: 3b7dcd43-4c2e-529f-9bc9-bb1df215b64e
+
+	measure 'Match Sprint Efforts' = ```
+			SUM('Match Loads'[sprint_efforts])
+			```
+		formatString: 0
+		displayFolder: Match (real data)
+		lineageTag: f233c9f3-be73-5e4e-9a4d-a1700c38ce58
+
+	measure 'Match Accels + Decels' = ```
+			SUM('Match Loads'[accels]) + SUM('Match Loads'[decels])
+			```
+		formatString: 0
+		displayFolder: Match (real data)
+		lineageTag: 4ee76869-5d8f-5f73-905b-2cf778091191
+
+	measure 'Match Top Speed (m/s)' = ```
+			MAX('Match Loads'[max_speed_ms])
+			```
+		formatString: 0.0
+		displayFolder: Match (real data)
+		lineageTag: c00345e4-cccb-5f5d-bbe3-af5d11de6eb0
+
+	measure 'Distance per 90 (m)' = ```
+			DIVIDE(SUM('Match Loads'[total_distance_m]), SUM('Match Loads'[minutes])) * 90
+			```
+		formatString: #,0
+		displayFolder: Match (real data)
+		lineageTag: 0cd0ed4e-99cc-58f3-aac7-f61631b6f337
+
+	measure 'HSR per 90 (m)' = ```
+			DIVIDE(SUM('Match Loads'[hsr_distance_m]), SUM('Match Loads'[minutes])) * 90
+			```
+		formatString: #,0
+		displayFolder: Match (real data)
+		lineageTag: 375c50e6-19f7-57d2-8605-c1b222d01775
+
+	partition 'Match Loads' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "match_loads.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "source_game", "minutes", "total_distance_m", "hsr_distance_m", "sprint_distance_m", "sprint_efforts", "accels", "decels", "max_speed_ms"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"source_game", type text}, {"minutes", type number}, {"total_distance_m", type number}, {"hsr_distance_m", type number}, {"sprint_distance_m", type number}, {"sprint_efforts", Int64.Type}, {"accels", Int64.Type}, {"decels", Int64.Type}, {"max_speed_ms", type number}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}})
+				in
+				    Renamed

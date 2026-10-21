@@ -1,0 +1,125 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "notes",
+  "position": {
+    "x": 20,
+    "y": 75,
+    "z": 1000,
+    "height": 625,
+    "width": 1240,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "REAL: match physical profiles (distance, high-speed running, sprints, accelerations, top speed) computed from Metrica Sports open 25 Hz tracking data, 2 matches, 26 players.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SIMULATED: the 30-week season (training, matches, sRPE, wellness, injuries), calibrated from each player's real per-90 output. Injuries are random, so no load-injury relationship here is real evidence.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "HSR = distance at 5.5 m/s or faster. Sprint = 7.0 m/s or faster for at least 1 s. Accel/decel = +/-3 m/s2 for at least 0.5 s. sRPE = session RPE x minutes.",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "ACWR = 7-day mean load / 28-day mean load (EWMA version also shown). ACWR is a communication tool for sudden load changes, not an injury predictor (Impellizzeri et al. 2020).",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": " ",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Pipeline: Python (pandas) -> SQLite -> Power BI. Code: github.com/Lizard-Creator/athlete-monitoring",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "color": "#1F2933"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

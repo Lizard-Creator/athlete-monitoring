@@ -1,0 +1,67 @@
+table Players
+	lineageTag: f9245aca-c6e6-5f8d-a329-776ea289e95e
+
+	column Player
+		dataType: string
+		lineageTag: d8c1369b-1c01-5b54-92cc-f6098f3eb141
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column Position
+		dataType: string
+		lineageTag: 68f758ac-d5c5-5a08-9f2f-001edc3ceae7
+		summarizeBy: none
+		sourceColumn: Position
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Squad Status'
+		dataType: string
+		lineageTag: 48e8f108-4af2-567e-9b6e-3fd73c000577
+		summarizeBy: none
+		sourceColumn: Squad Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_game
+		dataType: string
+		isHidden
+		lineageTag: 0c2eb9df-753b-571b-a95d-c6e69d35acdf
+		summarizeBy: none
+		sourceColumn: source_game
+
+		annotation SummarizationSetBy = Automatic
+
+	column jersey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: da202e59-12e3-5b20-b7de-38411abe110a
+		summarizeBy: none
+		sourceColumn: jersey
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_speed_ms
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 6227cc97-290a-5940-8cbc-ce662c675b25
+		summarizeBy: none
+		sourceColumn: max_speed_ms
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Players = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "players.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "position", "status", "source_game", "jersey", "max_speed_ms"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"position", type text}, {"status", type text}, {"source_game", type text}, {"jersey", Int64.Type}, {"max_speed_ms", type number}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}, {"position", "Position"}, {"status", "Squad Status"}})
+				in
+				    Renamed

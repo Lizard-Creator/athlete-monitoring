@@ -1,0 +1,90 @@
+table Injuries
+	lineageTag: fc2e7826-34a9-53e0-835e-94490a6686dc
+
+	column Player
+		dataType: string
+		isHidden
+		lineageTag: b956c27b-6a1e-53b3-a44c-b81342b5ce85
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Injury Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 909245b5-5abf-5744-8ed1-acf14477af5c
+		summarizeBy: none
+		sourceColumn: Injury Date
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column 'Return Date'
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 69523f44-0026-599a-a6de-b26dc3aa966a
+		summarizeBy: none
+		sourceColumn: Return Date
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column days_out
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6fe8a95e-0ae3-5355-9958-8092813345d8
+		summarizeBy: none
+		sourceColumn: days_out
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Injured Players' = ```
+			VAR d = [Report Date]
+			RETURN COUNTROWS(DISTINCT(SELECTCOLUMNS(
+			    FILTER(Injuries, Injuries[Injury Date] <= d && Injuries[Return Date] > d),
+			    "p", Injuries[Player]))) + 0
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 2c3bbeb3-9807-5887-97b2-42395f894aff
+
+	measure 'Available Players' = ```
+			COUNTROWS(Players) - [Injured Players]
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 8098492d-e17f-55e1-be66-d78746640c54
+
+	measure Availability = ```
+			IF([Injured Players] > 0, "Injured", "Available")
+			```
+		displayFolder: Status
+		lineageTag: 7a3e4128-1d78-54bb-aa58-fd7efb2ebc45
+
+	measure 'Days Injured' = ```
+			SUM(Injuries[days_out]) + 0
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 952165d2-6f32-59e8-aa5f-a0dcc76721a7
+
+	measure 'Days Out' = ```
+			SUM(Injuries[days_out])
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 18fa0daf-5605-5da8-9ee0-a4cc28ff1f8c
+
+	partition Injuries = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "injuries.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "injury_date", "return_date", "days_out"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"injury_date", type date}, {"return_date", type date}, {"days_out", Int64.Type}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}, {"injury_date", "Injury Date"}, {"return_date", "Return Date"}})
+				in
+				    Renamed

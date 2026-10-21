@@ -1,0 +1,5 @@
+/// Folder containing the CSVs written by src/pipeline.py (must end with a backslash)
+expression DataFolder = "C:\path\to\athlete-monitoring\outputs\powerbi\" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+	lineageTag: 091b097c-853f-5155-8894-b5214d3bb232
+
+	annotation PBI_ResultType = Text

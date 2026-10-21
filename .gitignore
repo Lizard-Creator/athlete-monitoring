@@ -4,3 +4,7 @@ __pycache__/
 data/raw/
 data/processed/
 outputs/
+
+# Power BI Desktop local files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf

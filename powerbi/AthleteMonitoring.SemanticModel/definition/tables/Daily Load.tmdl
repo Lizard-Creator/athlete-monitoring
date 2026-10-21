@@ -1,0 +1,201 @@
+table 'Daily Load'
+	lineageTag: 648a231d-4357-5ae2-906c-fec24fec5746
+
+	column Player
+		dataType: string
+		isHidden
+		lineageTag: 1c85f504-3e88-59d9-a649-c612f7ff52c6
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 8c959cc8-b918-5ed2-baf1-123b449b19b9
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column srpe_au
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 3d542cee-403e-52df-aead-f2a3c8942cd1
+		summarizeBy: none
+		sourceColumn: srpe_au
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 7acef65a-aa18-5806-82eb-8716e436d07f
+		summarizeBy: none
+		sourceColumn: total_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column hsr_distance_m
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 692d6f1a-c885-5568-a66e-e4ae3ee62045
+		summarizeBy: none
+		sourceColumn: hsr_distance_m
+
+		annotation SummarizationSetBy = Automatic
+
+	column acute_7d
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: d9de7e97-399b-5a94-84e6-9199a27bd7d9
+		summarizeBy: none
+		sourceColumn: acute_7d
+
+		annotation SummarizationSetBy = Automatic
+
+	column chronic_28d
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 60eff924-58fd-52c7-8411-e4a4bd200789
+		summarizeBy: none
+		sourceColumn: chronic_28d
+
+		annotation SummarizationSetBy = Automatic
+
+	column acwr_value
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: ae434535-e505-544f-ab77-b1fa98adc25f
+		summarizeBy: none
+		sourceColumn: acwr_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column acwr_ewma
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 72258ba4-375a-5fe1-8c02-383e89131ebc
+		summarizeBy: none
+		sourceColumn: acwr_ewma
+
+		annotation SummarizationSetBy = Automatic
+
+	column acwr_flag
+		dataType: string
+		isHidden
+		lineageTag: 27ad12c0-6b8d-59b2-8fc6-21791c885d6d
+		summarizeBy: none
+		sourceColumn: acwr_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Report Date' = ```
+			MAX('Date'[Date])
+			```
+		formatString: d mmm yy
+		displayFolder: Status
+		lineageTag: ad88eac6-3d7f-5abb-8ef4-a3d4b06e5e84
+
+	measure 'Daily sRPE (AU)' = ```
+			SUM('Daily Load'[srpe_au])
+			```
+		formatString: #,0
+		displayFolder: ACWR
+		lineageTag: c8b37222-f736-5a6a-859a-2131917a459f
+
+	measure ACWR = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE('Daily Load'[acwr_value]), 'Date'[Date] = d)
+			```
+		formatString: 0.00
+		displayFolder: ACWR
+		lineageTag: 0eccbe05-bb01-5e4b-840c-ef38d06e8fd1
+
+	measure 'ACWR (EWMA)' = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE('Daily Load'[acwr_ewma]), 'Date'[Date] = d)
+			```
+		formatString: 0.00
+		displayFolder: ACWR
+		lineageTag: b384076f-4839-5287-87c7-979283e7cd06
+
+	measure 'Acute Load (7d)' = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE('Daily Load'[acute_7d]), 'Date'[Date] = d)
+			```
+		formatString: #,0
+		displayFolder: ACWR
+		lineageTag: d99b58e9-a08d-558e-b5fb-fe71db27f28e
+
+	measure 'Chronic Load (28d)' = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE('Daily Load'[chronic_28d]), 'Date'[Date] = d)
+			```
+		formatString: #,0
+		displayFolder: ACWR
+		lineageTag: 069a6d1a-7050-56f3-b079-5d2faf7d1151
+
+	measure 'ACWR Upper Band' = ```
+			1.5
+			```
+		formatString: 0.0
+		displayFolder: ACWR
+		lineageTag: dfc94134-187e-5755-8e9d-f41e68b4ed36
+
+	measure 'ACWR Lower Band' = ```
+			0.8
+			```
+		formatString: 0.0
+		displayFolder: ACWR
+		lineageTag: 8394d6f3-b2e4-5929-9b38-38804e5e3a08
+
+	measure 'ACWR Status' = ```
+			VAR a = [ACWR]
+			RETURN SWITCH(TRUE(), ISBLANK(a), "No data", a >= 1.5, "High", a < 0.8, "Low", "Normal")
+			```
+		displayFolder: ACWR
+		lineageTag: ff226f69-4dbe-5a29-8fe4-27ec0671fd5b
+
+	measure 'ACWR Colour' = ```
+			VAR a = [ACWR]
+			RETURN SWITCH(TRUE(), ISBLANK(a), "#E0E0E0", a >= 1.5, "#EF9A9A", a < 0.8, "#FFE082", "#A5D6A7")
+			```
+		displayFolder: ACWR
+		lineageTag: d40d258b-754e-5a3b-8a4a-ed1181c844b5
+
+	measure 'Players High ACWR' = ```
+			COUNTROWS(FILTER(VALUES(Players[Player]), [ACWR] >= 1.5)) + 0
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: e067db2f-7b27-5fc2-9b9c-f7b6d66a5dd2
+
+	measure 'Players Low ACWR' = ```
+			COUNTROWS(FILTER(VALUES(Players[Player]), [ACWR] < 0.8)) + 0
+			```
+		formatString: 0
+		displayFolder: Status
+		lineageTag: 8e80daf9-2093-51be-88d4-a91e5367542a
+
+	partition 'Daily Load' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "daily_load.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "date", "srpe_au", "total_distance_m", "hsr_distance_m", "acute_7d", "chronic_28d", "acwr", "acwr_ewma", "acwr_flag"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"date", type date}, {"srpe_au", type number}, {"total_distance_m", type number}, {"hsr_distance_m", type number}, {"acute_7d", type number}, {"chronic_28d", type number}, {"acwr", type number}, {"acwr_ewma", type number}, {"acwr_flag", type text}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}, {"date", "Date"}, {"acwr", "acwr_value"}})
+				in
+				    Renamed

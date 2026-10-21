@@ -1,0 +1,96 @@
+table Wellness
+	lineageTag: d79a32fb-2bf1-521f-9d7d-adad43402161
+
+	column Player
+		dataType: string
+		isHidden
+		lineageTag: d60c5ee2-b822-53f8-a7f1-ef9c9beb939f
+		summarizeBy: none
+		sourceColumn: Player
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date'
+		dataType: dateTime
+		isHidden
+		formatString: yyyy-mm-dd
+		lineageTag: 85c80da6-c6ae-5c56-93ea-cbf508a2b257
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+		annotation SummarizationSetBy = Automatic
+
+	column sleep_quality
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e38f3ed5-f4ce-53cb-b4fd-5c903fe960d6
+		summarizeBy: none
+		sourceColumn: sleep_quality
+
+		annotation SummarizationSetBy = Automatic
+
+	column fatigue_score
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 125d6ea2-ce75-5c73-a7d3-cf7e9561b400
+		summarizeBy: none
+		sourceColumn: fatigue_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column soreness_score
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7107cd1f-ff93-5891-8673-e70c83de5d52
+		summarizeBy: none
+		sourceColumn: soreness_score
+
+		annotation SummarizationSetBy = Automatic
+
+	measure Sleep = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE(Wellness[sleep_quality]), 'Date'[Date] = d)
+			```
+		formatString: 0.0
+		displayFolder: Wellness
+		lineageTag: 764bf22b-054f-5dae-864b-428a7deaa674
+
+	measure Fatigue = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE(Wellness[fatigue_score]), 'Date'[Date] = d)
+			```
+		formatString: 0.0
+		displayFolder: Wellness
+		lineageTag: 08b94937-5c95-53a6-b6ca-a8b9dbb4bd06
+
+	measure Soreness = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGE(Wellness[soreness_score]), 'Date'[Date] = d)
+			```
+		formatString: 0.0
+		displayFolder: Wellness
+		lineageTag: 2ff622c6-52f7-5004-a73a-48289f10669d
+
+	measure 'Wellness Score' = ```
+			VAR d = [Report Date]
+			RETURN CALCULATE(AVERAGEX(Wellness, (Wellness[sleep_quality] + Wellness[fatigue_score] + Wellness[soreness_score]) / 3), 'Date'[Date] = d)
+			```
+		formatString: 0.0
+		displayFolder: Wellness
+		lineageTag: 84151492-da8d-55f3-b801-554b13795342
+
+	partition Wellness = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "wellness.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"player_id", "date", "sleep_quality", "fatigue", "soreness"}),
+				    Typed = Table.TransformColumnTypes(Kept, {{"player_id", type text}, {"date", type date}, {"sleep_quality", Int64.Type}, {"fatigue", Int64.Type}, {"soreness", Int64.Type}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"player_id", "Player"}, {"date", "Date"}, {"fatigue", "fatigue_score"}, {"soreness", "soreness_score"}})
+				in
+				    Renamed

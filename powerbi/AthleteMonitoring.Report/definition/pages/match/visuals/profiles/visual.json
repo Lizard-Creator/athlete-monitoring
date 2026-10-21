@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "profiles",
+  "position": {
+    "x": 855,
+    "y": 95,
+    "z": 4000,
+    "height": 300,
+    "width": 405,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Players"
+                    }
+                  },
+                  "Property": "Player"
+                }
+              },
+              "queryRef": "Players.Player",
+              "nativeQueryRef": "Player"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Distance per 90 (m)"
+                }
+              },
+              "queryRef": "Match Loads.Distance per 90 (m)",
+              "nativeQueryRef": "Distance per 90 (m)"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "HSR per 90 (m)"
+                }
+              },
+              "queryRef": "Match Loads.HSR per 90 (m)",
+              "nativeQueryRef": "HSR per 90 (m)"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Running profile: distance vs HSR per 90'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

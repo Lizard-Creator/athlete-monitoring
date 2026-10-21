@@ -1,0 +1,31 @@
+relationship 8692c7a5-65ca-5939-b6ea-49e35b39f767
+	fromColumn: Sessions.Player
+	toColumn: Players.Player
+
+relationship 8ef4bc22-bde9-5706-8f56-5e6b1ded0d0b
+	fromColumn: 'Daily Load'.Player
+	toColumn: Players.Player
+
+relationship c23c5fb5-77f9-52b4-81d1-75b060103672
+	fromColumn: Wellness.Player
+	toColumn: Players.Player
+
+relationship d468e923-47f7-54a2-bbbc-c952c30fff0c
+	fromColumn: Injuries.Player
+	toColumn: Players.Player
+
+relationship c902a5ff-9846-520b-a6af-b0a95f6c8a83
+	fromColumn: 'Match Loads'.Player
+	toColumn: Players.Player
+
+relationship c113603a-bc45-5bee-b6cd-9a4741c85dce
+	fromColumn: Sessions.'Date'
+	toColumn: 'Date'.'Date'
+
+relationship 63e8b734-6621-55c8-9ca9-9e83b7c0ae47
+	fromColumn: 'Daily Load'.'Date'
+	toColumn: 'Date'.'Date'
+
+relationship f6d0992b-7c3a-542b-97bf-bcc972dcaeb1
+	fromColumn: Wellness.'Date'
+	toColumn: 'Date'.'Date'

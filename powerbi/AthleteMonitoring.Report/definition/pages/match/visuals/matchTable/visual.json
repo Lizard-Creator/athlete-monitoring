@@ -1,0 +1,190 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "matchTable",
+  "position": {
+    "x": 20,
+    "y": 410,
+    "z": 5000,
+    "height": 295,
+    "width": 1240,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Players"
+                    }
+                  },
+                  "Property": "Player"
+                }
+              },
+              "queryRef": "Players.Player",
+              "nativeQueryRef": "Player"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Players"
+                    }
+                  },
+                  "Property": "Position"
+                }
+              },
+              "queryRef": "Players.Position",
+              "nativeQueryRef": "Position"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match Minutes"
+                }
+              },
+              "queryRef": "Match Loads.Match Minutes",
+              "nativeQueryRef": "Match Minutes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match Distance (km)"
+                }
+              },
+              "queryRef": "Match Loads.Match Distance (km)",
+              "nativeQueryRef": "Match Distance (km)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match HSR (m)"
+                }
+              },
+              "queryRef": "Match Loads.Match HSR (m)",
+              "nativeQueryRef": "Match HSR (m)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match Sprint Efforts"
+                }
+              },
+              "queryRef": "Match Loads.Match Sprint Efforts",
+              "nativeQueryRef": "Match Sprint Efforts"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match Accels + Decels"
+                }
+              },
+              "queryRef": "Match Loads.Match Accels + Decels",
+              "nativeQueryRef": "Match Accels + Decels"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Match Loads"
+                    }
+                  },
+                  "Property": "Match Top Speed (m/s)"
+                }
+              },
+              "queryRef": "Match Loads.Match Top Speed (m/s)",
+              "nativeQueryRef": "Match Top Speed (m/s)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Match Loads"
+                  }
+                },
+                "Property": "Match Distance (km)"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Match physical outputs'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

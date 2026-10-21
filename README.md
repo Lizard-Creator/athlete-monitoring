@@ -72,7 +72,21 @@ correlations, and its link to injury risk is weak (Impellizzeri et al. 2020, Lol
 
 ## Dashboard
 
-See [powerbi/DASHBOARD_SPEC.md](powerbi/DASHBOARD_SPEC.md) for pages, visuals, the data model, and DAX measures.
+The dashboard is a **Power BI Project** (`.pbip`), which stores the model and report as text files you can diff in git:
+
+- `powerbi/AthleteMonitoring.SemanticModel/`: the data model in TMDL (7 tables, 8 relationships, 42 DAX measures)
+- `powerbi/AthleteMonitoring.Report/`: 5 report pages in PBIR: Morning Report, Player Profile,
+  Weekly Periodization, Match Physical Report (real data), About the Data
+
+To open it:
+1. Run the pipeline first so `outputs/powerbi/*.csv` exists.
+2. Open `powerbi/AthleteMonitoring.pbip` in Power BI Desktop and click **Refresh**.
+3. The repo copy ships with a placeholder `DataFolder` path. Run `python powerbi/build_pbip.py` once to write
+   your machine's `outputs\powerbi\` path into the model, or set it in Power BI under
+   Transform data → Manage parameters. (`--placeholder` regenerates the shareable version.)
+
+`powerbi/build_pbip.py` generated the starting project. Once you edit in Desktop, Desktop owns the files, so don't
+regenerate over your changes. [powerbi/DASHBOARD_SPEC.md](powerbi/DASHBOARD_SPEC.md) explains the design intent.
 
 ## Extension ideas
 

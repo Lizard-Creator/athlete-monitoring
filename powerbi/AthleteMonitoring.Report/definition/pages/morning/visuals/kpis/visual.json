@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "kpis",
+  "position": {
+    "x": 20,
+    "y": 95,
+    "z": 3000,
+    "height": 105,
+    "width": 1240,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Report Date"
+                }
+              },
+              "queryRef": "Daily Load.Report Date",
+              "nativeQueryRef": "Report Date"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Available Players"
+                }
+              },
+              "queryRef": "Injuries.Available Players",
+              "nativeQueryRef": "Available Players"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injuries"
+                    }
+                  },
+                  "Property": "Injured Players"
+                }
+              },
+              "queryRef": "Injuries.Injured Players",
+              "nativeQueryRef": "Injured Players"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Players High ACWR"
+                }
+              },
+              "queryRef": "Daily Load.Players High ACWR",
+              "nativeQueryRef": "Players High ACWR"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Daily Load"
+                    }
+                  },
+                  "Property": "Players Low ACWR"
+                }
+              },
+              "queryRef": "Daily Load.Players Low ACWR",
+              "nativeQueryRef": "Players Low ACWR"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Athlete Monitoring",
+  "dataColors": [
+    "#1F4E79",
+    "#2A9D8F",
+    "#E9A23B",
+    "#C8553D",
+    "#6C757D",
+    "#8AB17D",
+    "#5B8DB8",
+    "#264653"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1F2933",
+  "tableAccent": "#1F4E79",
+  "good": "#388E3C",
+  "neutral": "#F9A825",
+  "bad": "#D32F2F"
+}
